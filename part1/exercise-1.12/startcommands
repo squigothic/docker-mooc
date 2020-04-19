@@ -1,0 +1,2 @@
+backend: docker run -v $(pwd)/logs.txt:/mydir/logs.txt -p 8000:8000 -it backend-example
+frontend: docker run -p 5000:5000 frontend-example
