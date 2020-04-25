@@ -1,0 +1,23 @@
+FROM ruby:latest
+
+WORKDIR /app
+COPY . .
+
+ENV PATH="/root/.rbenv/bin:/root/.rbenv/shims:${PATH}"
+RUN apt-get update && apt-get install -y curl git sudo
+# build-essential libssl-dev libreadline-dev zlib1g-dev libsqlite3-dev
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt install nodejs
+RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash
+RUN rbenv install 2.6.0
+ENV RBENV_VERSION=2.6.0
+ENV SECRET_KEY_BASE="awdaw123as1235546t2asdASDasf¤%#"
+
+RUN gem install bundler
+RUN bundle install
+RUN rails db:migrate RAILS_ENV=production
+RUN rake assets:precompile
+ENV RAILS_LOG_TO_STDOUT=true
+
+EXPOSE 3000
+CMD ["rails", "s", "-e", "production"]
