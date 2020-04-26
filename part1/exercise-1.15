@@ -1,0 +1,4 @@
+Image in Docker Hub: https://hub.docker.com/repository/docker/squigothic/ruuvijavabackend
+
+The image is based on a Java service which can be found on GitHub:
+https://github.com/Vuohi/ruuvijavabackend
