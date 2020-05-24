@@ -1,0 +1,35 @@
+# for the frontend to work, the API location environment variable in frontend needed to be changed 
+
+
+version: '3.5'
+
+services:
+  proxy:
+    image: nginx
+    ports:
+      - 80:80
+    volumes: 
+      - ${PWD}/nginx.conf:/etc/nginx/nginx.conf
+    container_name: nginx-proxy
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=example
+    container_name: postgres_messages
+
+  backend:
+    image: backend-example
+    environment: 
+      - REDIS=redis
+      - REDIS_PORT=6379
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=example
+      - DB_HOST=db
+
+  frontend:
+    image: frontend-example
+  
+  redis:
+    image: redis
